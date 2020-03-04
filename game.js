@@ -20,7 +20,7 @@ var heroImage = new Image();
 heroImage.onload = function () {
 	heroReady = true;
 };
-heroImage.src = "Ressources/Images/trump.jpg";
+heroImage.src = "Ressources/Images/trumpHead.png";
 
 // Monster image
 var monsterReady = false;
@@ -30,13 +30,15 @@ monsterImage.onload = function () {
 };
 monsterImage.width=32
 monsterImage.height =32
-monsterImage.src = "Ressources/Images/mexicanos.jpeg";
+monsterImage.src = "Ressources/Images/mexicanHat.png";
 
 // Game objects
 var hero = {
-	speed: 256 // movement in pixels per second
+	speed: 512 // movement in pixels per second
 };
-var monster = { speed: 128};
+var monster = {
+    speed: 128
+};
 var monstersCaught = 0;
 
 // Handle keyboard controls
