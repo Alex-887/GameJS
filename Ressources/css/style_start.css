@@ -7,12 +7,20 @@
   padding: 0px;
   box-sizing: border-box;
   font-family: "Montserrat" ;
+
+}
+
+p{
+  margin-top: 1em !important;
   margin-bottom: 1em;
 }
 
 main{
   margin: 10px !important;
   padding: 10px !important;
+      display: grid;
+  grid-template-columns:70% 25%;
+  grid-column-gap: 100px;
 
 }
 
@@ -27,33 +35,33 @@ footer {
   text-align: center;
   height:120px;
 
+}
+
+
+#logo{
+
+    position: absolute;
+    top: 30%;
+    left: 45%;
+    text-align: center;
 
 }
 
-.grid{
 
-  display: grid;
-  grid-template-columns:70% 25%;
-  grid-column-gap: 100px;
 
-}
 
 h1{
   vertical-align: middle;
-
   text-align: center;
+  padding-top: 1.4%;
   position:relative;
-  top:0;
-  left: 0;
-  right: 0;
   color: white;
-  -size: 30px;
+  size: 30px;
   background: linear-gradient(#f6c0a6, #dd5325);
   color: white;
   margin:0px auto;
   height:100px;
-
-
+  background-position: bottom 10% right 50%;
 
 }
 
@@ -80,7 +88,7 @@ ul.topnav li {float: left;}
 
 ul.topnav li.hamburger{
 
-    visibility: hidden;
+    display: none;
 
 }
 
@@ -103,7 +111,7 @@ ul.topnav li.active a{
 
 }
 
-.container ul{
+aside ul{
 
 
   list-style-type: none;
@@ -115,13 +123,14 @@ ul.topnav li.active a{
 
 }
 
-.container ul li p{
+aside ul li p{
 
   padding-left:15px;
 
 }
 
-.container ul li .title{
+aside ul li h3{
+
 
   width:100%;
   height:50px;
@@ -129,7 +138,7 @@ ul.topnav li.active a{
   background-color:#dd5325;
   color: white;
   text-align:left;
-  padding-left:10px;
+  padding-left:12px;
   font-size:20px;
 
 }
@@ -146,12 +155,14 @@ ul.topnav li.active a{
 }
 
 #journal th {
-padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #dd5325;
-  color: white;
+    padding-top: 12px;
+padding-bottom: 12px;
+text-align: left;
+background-color: #dd5325;
+color: white;
 }
+
+
 
 header p{
     border: none;
@@ -167,32 +178,52 @@ header p{
 
 ul.topnav li.right {float: right;}
 
-/Small screen
-@media screen and (max-width: 600px) {
-  ul.topnav li.right,
-  ul.topnav li {float: none;}
+
+@media screen and (max-width:320px) {
+
+    aside {
+        width: 50%;
+        margin-bottom: 50px;
+        margin-left: 120px;
+      }
+
+   .container ul{
+
+  list-style-type: none;
+  box-sizing: border-box;
+  border:2px;
+  margin: 20px 30px 0px 20px;
+  box-shadow: 0 0 7px 3px grey;
+  }
+
+.grid {
+  display: grid;
+
 }
 
+/---repris---du---corrigé---/
+@media screen and (max-width: 580px) {
 
-/Smartphone horizontal
-@media screen and (max-width:800px) {
-
-
-    aside {
-        width: 0%;
-        margin-bottom: 50px;
-        margin-left: 120px;
-
+    main {
+        flex-direction: column;
     }
 
-/Smartphone vertical
-@media screen and (max-width:800px) {
-
-
-    aside {
-        width: 0%;
-        margin-bottom: 50px;
-        margin-left: 120px;
-
+    nav ul {
+        flex-direction: column;
+        padding-left: 0;
     }
 
+    nav ul li.hamburger {
+        display: block;
+        margin: 0 auto 10px;
+    }
+
+    nav ul li img {
+        width: 32px;
+        height: 32px;
+        margin: 4px 0 0 0 ;
+        padding: 0;
+        display: block;
+    }
+
+}
