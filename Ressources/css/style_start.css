@@ -18,7 +18,7 @@ main{
 
 footer {
   vertical-align: middle;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   margin:0 ;
   width: 100%;
@@ -26,6 +26,7 @@ footer {
   color: white;
   text-align: center;
   height:120px;
+
 
 }
 
@@ -77,6 +78,12 @@ ul.topnav {
 
 ul.topnav li {float: left;}
 
+ul.topnav li.hamburger{
+
+    visibility: hidden;
+
+}
+
 ul.topnav li a {
   display: block;
   color: white;
@@ -127,6 +134,25 @@ ul.topnav li.active a{
 
 }
 
+
+#journal {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#journal td, #journal th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#journal th {
+padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #dd5325;
+  color: white;
+}
+
 header p{
     border: none;
     height: 1px;
@@ -141,8 +167,32 @@ header p{
 
 ul.topnav li.right {float: right;}
 
+/Small screen
 @media screen and (max-width: 600px) {
   ul.topnav li.right,
   ul.topnav li {float: none;}
 }
+
+
+/Smartphone horizontal
+@media screen and (max-width:800px) {
+
+
+    aside {
+        width: 0%;
+        margin-bottom: 50px;
+        margin-left: 120px;
+
+    }
+
+/Smartphone vertical
+@media screen and (max-width:800px) {
+
+
+    aside {
+        width: 0%;
+        margin-bottom: 50px;
+        margin-left: 120px;
+
+    }
 
