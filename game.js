@@ -4,6 +4,7 @@ var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
 canvas.width = 1920;
 canvas.height = 1080;
+
 document.body.appendChild(canvas);
 
 // Background image
@@ -12,7 +13,7 @@ var bgImage = new Image();
 bgImage.onload = function () {
 	bgReady = true;
 };
-bgImage.src = "Ressources/Images/Map.png";
+bgImage.src = "Ressources/Images/bg.png";
 
 // Hero image
 var heroReady = false;
@@ -20,7 +21,7 @@ var heroImage = new Image();
 heroImage.onload = function () {
 	heroReady = true;
 };
-heroImage.src = "Ressources/Images/trumpHead.png";
+heroImage.src = "Ressources/Images/Trump.png";
 
 // Monster image
 var monsterReady = false;
@@ -30,7 +31,7 @@ monsterImage.onload = function () {
 };
 monsterImage.width=32
 monsterImage.height =32
-monsterImage.src = "Ressources/Images/mexicanHat.png";
+monsterImage.src = "Ressources/Images/Mexican.png";
 
 // Game objects
 var hero = {
@@ -129,7 +130,7 @@ var redrawMexicans = function(modifier){
 
 }
 
-var mexicansNumber = 0
+
 // Draw everything
 var render = function () {
 	if (bgReady) {
@@ -140,10 +141,11 @@ var render = function () {
 		ctx.drawImage(heroImage, hero.x, hero.y);
 	}
 
+
+
+    let mexicansNumber = 0
     while(mexicansNumber < 5){
-        if (monsterReady) {
-		ctx.drawImage(monsterImage, monster.x, monster.y);
-        }
+        redrawMexicans();
     mexicansNumber++;
     }
 
