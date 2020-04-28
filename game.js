@@ -14,15 +14,10 @@ bgImage.onload = function () {
 	bgReady = true;
 };
 bgImage.src = "Ressources/Images/bg.png";
-<<<<<<< HEAD
-//hes
+
+
 // Hero image
-=======
 
-
-
-// Hero image test
->>>>>>> origin/master
 var heroReady = false;
 var heroImage = new Image();
 heroImage.onload = function () {
@@ -42,12 +37,14 @@ monsterImage.src = "Ressources/Images/Mexican.png";
 
 // Game objects
 var hero = {
-	speed: 512 // movement in pixels per second
+	speed: 512 ,// movement in pixels per second
+    lifeHero: 10
 };
 var monster = {
-    speed: 128
+    speed: 128 ,
+    lifeMonster: 2
 };
-var monstersCaught = 0;
+
 
 // Handle keyboard controls
 var keysDown = {};
@@ -66,12 +63,9 @@ var reset = function () {
 	hero.x = canvas.width / 2;
 	hero.y = canvas.height / 2;
 
-
-
         // Throw the monster somewhere on the screen randomly
          monster.x = 32 + (Math.random() * (canvas.width - 64));
 	     monster.y = 32 + (Math.random() * (canvas.height - 64));
-
 
 
 };
@@ -91,7 +85,7 @@ var update = function (modifier) {
 		hero.x += hero.speed * modifier;
 	}
 
-	// Are they touching?
+	// If one mexican touches Trump
 	if (
 		hero.x <= (monster.x + 32)
 		&& monster.x <= (hero.x + 32)
@@ -99,9 +93,13 @@ var update = function (modifier) {
 		&& monster.y <= (hero.y + 32)
 	) {
 		++monstersCaught;
-        mexicansNumber--;
-        //alert("You are hit !")
-		//reset();
+        lifeHero--;
+        if(lifeHero<=0)
+            {
+            alert("You are dead !")
+		  reset();    
+            }
+        
 	}
 };
 
@@ -150,7 +148,7 @@ var render = function () {
 
 
 
-    let mexicansNumber = 0
+    var mexicansNumber = 0
     while(mexicansNumber < 5){
         redrawMexicans();
     mexicansNumber++;
