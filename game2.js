@@ -29,11 +29,14 @@ monsterImage.onload = function () {
 };
 monsterImage.src = "Ressources/Images/Mexican.png";
 
+
+let heroHealth = document.getElementById("health");
 // Game objects
 var hero = {
-	speed: 256 // movement in pixels per second
+	speed: 512 // movement in pixels per second
 };
 var monster = {
+    lifeMexican: 2,
     speed: 128
 };
 var monstersCaught = 0;
@@ -83,6 +86,12 @@ var update = function (modifier) {
 	) {
 		++monstersCaught;
 		//reset();
+
+        heroHealth.value -= 1;
+        if(heroHealth.value <= 0)
+            {
+            alert("You are dead !")
+            }
 	}
 };
 
