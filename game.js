@@ -14,10 +14,15 @@ bgImage.onload = function () {
 	bgReady = true;
 };
 bgImage.src = "Ressources/Images/bg.png";
+<<<<<<< HEAD
+//hes
+// Hero image
+=======
 
 
 
 // Hero image test
+>>>>>>> origin/master
 var heroReady = false;
 var heroImage = new Image();
 heroImage.onload = function () {
