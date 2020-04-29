@@ -10,19 +10,15 @@ document.body.appendChild(canvas);
 // Background image
 var bgReady = false;
 var bgImage = new Image();
+
 bgImage.onload = function () {
 	bgReady = true;
 };
 bgImage.src = "Ressources/Images/bg.png";
-<<<<<<< HEAD
-//hes
-// Hero image
-=======
 
 
 
-// Hero image test
->>>>>>> origin/master
+
 var heroReady = false;
 var heroImage = new Image();
 heroImage.onload = function () {
@@ -99,7 +95,7 @@ var update = function (modifier) {
 		&& monster.y <= (hero.y + 32)
 	) {
 		++monstersCaught;
-        mexicansNumber--;
+        //mexicansNumber--;
         //alert("You are hit !")
 		//reset();
 	}
@@ -142,6 +138,7 @@ var redrawMexicans = function(modifier){
 
 // Draw everything
 var render = function () {
+
 	if (bgReady) {
 		ctx.drawImage(bgImage, 0, 0);
 	}
@@ -150,12 +147,10 @@ var render = function () {
 		ctx.drawImage(heroImage, hero.x, hero.y);
 	}
 
-
-
-    while(mexicansNumber < 5){
+        if(monsterReady){
        ctx.drawImage(monsterImage, monster.x, monster.y);
-    mexicansNumber++;
     }
+
 
 
 	// Score
