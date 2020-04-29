@@ -132,6 +132,8 @@ var redrawMexicans = function(modifier){
 
 }
 
+ let mexicansNumber = 0
+
 
 // Draw everything
 var render = function () {
@@ -145,9 +147,8 @@ var render = function () {
 
 
 
-    let mexicansNumber = 0
     while(mexicansNumber < 5){
-        redrawMexicans();
+       ctx.drawImage(monsterImage, monster.x, monster.y);
     mexicansNumber++;
     }
 
