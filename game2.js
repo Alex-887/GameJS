@@ -86,6 +86,8 @@ var reset = function () {
 	monster.y = 32 + (Math.random() * (canvas.height - 64));
 };
 
+
+
 // Update game objects
 var update = function (modifier) {
 	if (38 in keysDown) { // Player holding up
@@ -146,6 +148,8 @@ var update = function (modifier) {
 
 
 };
+
+
 
 let mexicans = [];
 
