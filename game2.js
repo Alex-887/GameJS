@@ -31,15 +31,18 @@ monsterImage.src = "Ressources/Images/Mexican.png";
 
 
 let heroHealth = document.getElementById("health");
+
 // Game objects
 var hero = {
 	speed: 512 // movement in pixels per second
 };
 var monster = {
-    lifeMexican: 2,
     speed: 128
 };
+
 var monstersCaught = 0;
+
+var lifeMonster = 5;
 
 // Handle keyboard controls
 var keysDown = {};
@@ -77,14 +80,59 @@ var update = function (modifier) {
 		hero.x += hero.speed * modifier;
 	}
 
-	// Are they touching?
+
+
+    //if the hero attacks by pressing f (fight)
+
+            //on the left
+            if(70 in keysDown && 37 in keysDown )
+            {
+                //if he touches a naughty mexicain on the left
+                if (hero.x <= (monster.x - 40))
+                {
+                    lifeMonster -=1;
+
+                    if(lifeMonster<=0)
+                    {
+                        //ctx.rotate(-90*Math.PI/180);
+
+                        // Throw the monster somewhere on the screen randomly
+	                   monster.x = 32 + (Math.random() * (canvas.width - 64));
+                        monster.y = 32 + (Math.random() * (canvas.height - 64));
+                    }
+                }
+            }
+
+            //on the right
+            if(70 in keysDown && 39 in keysDown )
+            {
+
+                //if he touches a naughty mexicain on the right
+                if (hero.x <= (monster.x + 40))
+                {
+
+                 lifeMonster -=1;
+
+                       if(lifeMonster<=0)
+                        {
+                          //   ctx.rotate(-90*Math.PI/180);
+                            // Throw the monster somewhere on the screen randomly
+	                       monster.x = 32 + (Math.random() * (canvas.width - 64));
+	                       monster.y = 32 + (Math.random() * (canvas.height - 64));
+                        }
+                }
+            }
+
+
+
+	// When the mexican touches Trump
 	if (
 		hero.x <= (monster.x + 32)
 		&& monster.x <= (hero.x + 32)
 		&& hero.y <= (monster.y + 32)
 		&& monster.y <= (hero.y + 32)
 	) {
-		++monstersCaught;
+	//	++monstersCaught;
 		//reset();
 
         heroHealth.value -= 1;
