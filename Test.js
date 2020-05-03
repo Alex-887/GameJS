@@ -1,21 +1,17 @@
-"use strict";
 // Create the canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
 canvas.width = 1920;
 canvas.height = 1080;
-
 document.body.appendChild(canvas);
 
 // Background image
 var bgReady = false;
 var bgImage = new Image();
-
 bgImage.onload = function () {
 	bgReady = true;
 };
 bgImage.src = "Ressources/Images/bg.png";
-
 
 // Hero image
 var heroReady = false;
@@ -31,20 +27,65 @@ var monsterImage = new Image();
 monsterImage.onload = function () {
 	monsterReady = true;
 };
-monsterImage.width=32
-monsterImage.height =32
 monsterImage.src = "Ressources/Images/Mexican.png";
 
+
+let heroHealth = document.getElementById("health");
+
+
+
+class hero {
+    constructor() {
+        this.visible = true;
+        this.x = canvas.width / 2;
+        this.y = canvas.height / 2;
+        this.movingForward = false;
+        this.speed = 512;
+        this.rotateSpeed = 1;
+        this.radius = 15;
+        this.angle = 0;
+        this.strokeColor = 'white';
+        // Used to know where to fire the bullet from
+        this.noseX = canvas.width / 2 + 15;
+        this.noseY = canvas.height / 2;
+    }
+    Rotate(dir) {
+        this.angle += this.rotateSpeed * dir;
+    }
+}
+
+
+let hero = new hero();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Game objects
+
+/*
 var hero = {
-	speed: 512 ,// movement in pixels per second
-    lifeHero: 10
+	speed: 512 // movement in pixels per second
 };
+*/
+
 var monster = {
-    speed: 128 ,
-    lifeMonster: 2
+    speed: 128
 };
 
+var monstersCaught = 0;
+
+var lifeMonster = 5;
 
 // Handle keyboard controls
 var keysDown = {};
@@ -59,15 +100,12 @@ addEventListener("keyup", function (e) {
 
 // Reset the game when the player catches a monster
 var reset = function () {
-
 	hero.x = canvas.width / 2;
 	hero.y = canvas.height / 2;
 
-        // Throw the monster somewhere on the screen randomly
-         monster.x = 32 + (Math.random() * (canvas.width - 64));
-	     monster.y = 32 + (Math.random() * (canvas.height - 64));
-
-
+	// Throw the monster somewhere on the screen randomly
+	monster.x = 32 + (Math.random() * (canvas.width - 64));
+	monster.y = 32 + (Math.random() * (canvas.height - 64));
 };
 
 // Update game objects
@@ -85,26 +123,69 @@ var update = function (modifier) {
 		hero.x += hero.speed * modifier;
 	}
 
-	// If one mexican touches Trump
+
+
+    //if the hero attacks by pressing f (fight)
+
+            //on the left
+            if(70 in keysDown && 37 in keysDown )
+            {
+                //if he touches a naughty mexicain on the left
+                if (hero.x <= (monster.x - 40))
+                {
+                    lifeMonster -=1;
+
+                    if(lifeMonster<=0)
+                    {
+                        //ctx.rotate(-90*Math.PI/180);
+
+                        // Throw the monster somewhere on the screen randomly
+	                   monster.x = 32 + (Math.random() * (canvas.width - 64));
+                        monster.y = 32 + (Math.random() * (canvas.height - 64));
+                    }
+                }
+            }
+
+            //on the right
+            if(70 in keysDown && 39 in keysDown )
+            {
+
+                //if he touches a naughty mexicain on the right
+                if (hero.x <= (monster.x + 40))
+                {
+
+                 lifeMonster -=1;
+
+                       if(lifeMonster<=0)
+                        {
+                          //   ctx.rotate(-90*Math.PI/180);
+                            // Throw the monster somewhere on the screen randomly
+	                       monster.x = 32 + (Math.random() * (canvas.width - 64));
+	                       monster.y = 32 + (Math.random() * (canvas.height - 64));
+                        }
+                }
+            }
+
+
+
+	// When the mexican touches Trump
 	if (
 		hero.x <= (monster.x + 32)
 		&& monster.x <= (hero.x + 32)
 		&& hero.y <= (monster.y + 32)
 		&& monster.y <= (hero.y + 32)
 	) {
-		++monstersCaught;
-        //mexicansNumber--;
-        //alert("You are hit !")
+	//	++monstersCaught;
 		//reset();
 
-        lifeHero--;
-        if(lifeHero<=0)
+        heroHealth.value -= 1;
+        if(heroHealth.value <= 0)
             {
             alert("You are dead !")
-		  reset();
             }
 	}
 };
+
 
 //Move mexicans
 var redrawMexicans = function(modifier){
@@ -138,11 +219,16 @@ var redrawMexicans = function(modifier){
 
 }
 
- let mexicansNumber = 0
-
-
 // Draw everything
 var render = function () {
+
+    //on the left
+    if(37 in keysDown)
+        hero.Rotate(1);
+
+    if(39 in keysDown)
+        hero.Rotate(-1);
+
 
 	if (bgReady) {
 		ctx.drawImage(bgImage, 0, 0);
@@ -152,28 +238,21 @@ var render = function () {
 		ctx.drawImage(heroImage, hero.x, hero.y);
 	}
 
-
-        if(monsterReady){
-       ctx.drawImage(monsterImage, monster.x, monster.y);
-        }
-
-
+	if (monsterReady) {
+		ctx.drawImage(monsterImage, monster.x, monster.y);
+	}
 
 	// Score
-	ctx.fillStyle = "rgb(250, 150, 150)";
+	ctx.fillStyle = "rgb(250, 250, 250)";
 	ctx.font = "24px Helvetica";
 	//ctx.textAlign = "left";
 	//ctx.textBaseline = "top";
-	ctx.fillText("Mexicans caught: " + monstersCaught, 0, 200);
-
-
-
+	ctx.fillText("Goblins caught: " + monstersCaught, 32, 32);
 };
 
 // The main game loop
 var main = function () {
 	var now = Date.now();
-    //Stabilize the speed of entities
 	var delta = now - then;
 
 	update(delta / 1000);
@@ -182,6 +261,7 @@ var main = function () {
 	then = now;
 
     setInterval(redrawMexicans(delta / 1000), 1000);
+
 
 	// Request to do this again ASAP
 	requestAnimationFrame(main);
