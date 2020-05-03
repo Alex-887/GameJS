@@ -1,9 +1,16 @@
 // Create the canvas
-var canvas = document.createElement("canvas");
-var ctx = canvas.getContext("2d");
-canvas.width = 1920;
-canvas.height = 1080;
+//var canvas = document.createElement("canvas");
+//var ctx = canvas.getContext("2d");
+
+let canvas = document.getElementById("gameScreen");
+let ctx = canvas.getContext("2d");
+
+//canvas.width = 1920;
+//canvas.height = 1080;
+
+
 document.body.appendChild(canvas);
+
 
 // Background image
 var bgReady = false;
@@ -18,31 +25,101 @@ var heroReady = false;
 var heroImage = new Image();
 heroImage.onload = function () {
 	heroReady = true;
-};
-heroImage.src = "Ressources/Images/Trump.png";
+}
+heroImage.src = "Ressources/Images/Trump-removebg-preview.png";
 
-// Monster image
-var monsterReady = false;
-var monsterImage = new Image();
-monsterImage.onload = function () {
-	monsterReady = true;
-};
-monsterImage.src = "Ressources/Images/Mexican.png";
+// mexican image
+var mexicanReady = false;
+var mexicanImage = new Image();
+mexicanImage.onload = function () {
+	mexicanReady = true;
+}
+mexicanImage.src = "Ressources/Images/Mexican-removebg-preview.png";
 
+// Brick image
+let brickReady = false;
+let brickImage = new Image();
+brickImage.onload = function(){
+    brickReady = true;
+}
+brickImage.src = "Ressources/Images/Brick.png";
+
+
+// Bullet image
+let bulletReady = false;
+let bulletImage = new Image();
+bulletImage.onload = function(){
+    bulletReady = true;
+}
+bulletImage.src = "Ressources/Images/star.png";
+
+
+
+let bricksCount = 0;
+let spawnBrick = true;
 
 let heroHealth = document.getElementById("health");
 
-// Game objects
-var hero = {
-	speed: 512 // movement in pixels per second
-};
-var monster = {
-    speed: 128
-};
 
-var monstersCaught = 0;
+let bullets = [];
 
-var lifeMonster = 5;
+
+// Game objects *******************************************************v
+
+let hero = {
+	speed: 512, // movement in pixels per second
+    size: 30,
+    x: canvas.width / 2,
+	y: canvas.height / 2,
+    angle: 0,
+    heroHealth: heroHealth
+}
+
+
+class Bullet{
+    constructor(angle) {
+        this.visible = true;
+        this.x = hero.x;
+        this.y = hero.y;
+        this.angle = angle;
+        this.height = 6;
+        this.width = 6;
+        this.speed = 5;
+        this.velX = 0;
+        this.velY = 0;
+    }
+    Update(){
+        let radians = this.angle / Math.PI * 180;
+        this.x -= Math.cos(radians) * this.speed;
+        this.y -= Math.sin(radians) * this.speed;
+    }
+    Draw(){
+        ctx.fillStyle = 'black';
+        ctx.fillRect(this.x,this.y,this.width,this.height);
+    }
+}
+
+class mexican{
+    constructor() {
+        this.x= 32 + (Math.random() * (canvas.width - 64));
+        this.y= 32 + (Math.random() * (canvas.width - 64));
+        this.speed= 18;
+        this.life= 2 ;
+        this.dead = false;
+    }
+}
+
+let brick = {
+}
+
+
+
+// Game objects *******************************************************
+
+
+
+
+
 
 // Handle keyboard controls
 var keysDown = {};
@@ -53,87 +130,65 @@ addEventListener("keydown", function (e) {
 
 addEventListener("keyup", function (e) {
 	delete keysDown[e.keyCode];
+    if (e.keyCode === 70){
+        bullets.push(new Bullet(hero.angle));
+    }
 }, false);
 
-// Reset the game when the player catches a monster
+// Reset the game when the player catches a mexican
+
 var reset = function () {
 	hero.x = canvas.width / 2;
 	hero.y = canvas.height / 2;
 
-	// Throw the monster somewhere on the screen randomly
-	monster.x = 32 + (Math.random() * (canvas.width - 64));
-	monster.y = 32 + (Math.random() * (canvas.height - 64));
+    brick.x = 32 + (Math.random() * (canvas.width - 64));
+	brick.y = 32 + (Math.random() * (canvas.height - 64));
+
+	// Throw the mexican somewhere on the screen randomly
+	mexican.x = 32 + (Math.random() * (canvas.width - 64));
+	mexican.y = 32 + (Math.random() * (canvas.height - 64));
 };
 
 // Update game objects
 var update = function (modifier) {
 	if (38 in keysDown) { // Player holding up
 		hero.y -= hero.speed * modifier;
+        hero.angle = 44;
+        if(hero.y < 0){
+            hero.y = 0;
+        }
 	}
 	if (40 in keysDown) { // Player holding down
 		hero.y += hero.speed * modifier;
+        hero.angle = 250;
+        if (hero.y + hero.size > ctx.canvas.height){
+            //hero.y -= 50;
+            hero.y = ctx.canvas.height + hero.size;
+        }
 	}
 	if (37 in keysDown) { // Player holding left
 		hero.x -= hero.speed * modifier;
+        hero.angle = 0;
+        if (hero.x < 0){
+            hero.x = 0;
+        }
 	}
 	if (39 in keysDown) { // Player holding right
 		hero.x += hero.speed * modifier;
+        hero.angle = 181;
+        if (hero.x + hero.size > ctx.canvas.width){
+            hero.x = 1850;
+        }
 	}
 
-
-
-    //if the hero attacks by pressing f (fight)
-
-            //on the left
-            if(70 in keysDown && 37 in keysDown )
-            {
-                //if he touches a naughty mexicain on the left
-                if (hero.x <= (monster.x - 40))
-                {
-                    lifeMonster -=1;
-
-                    if(lifeMonster<=0)
-                    {
-                        //ctx.rotate(-90*Math.PI/180);
-
-                        // Throw the monster somewhere on the screen randomly
-	                   monster.x = 32 + (Math.random() * (canvas.width - 64));
-                        monster.y = 32 + (Math.random() * (canvas.height - 64));
-                    }
-                }
-            }
-
-            //on the right
-            if(70 in keysDown && 39 in keysDown )
-            {
-
-                //if he touches a naughty mexicain on the right
-                if (hero.x <= (monster.x + 40))
-                {
-
-                 lifeMonster -=1;
-
-                       if(lifeMonster<=0)
-                        {
-                          //   ctx.rotate(-90*Math.PI/180);
-                            // Throw the monster somewhere on the screen randomly
-	                       monster.x = 32 + (Math.random() * (canvas.width - 64));
-	                       monster.y = 32 + (Math.random() * (canvas.height - 64));
-                        }
-                }
-            }
-
-
-
 	// When the mexican touches Trump
+
 	if (
-		hero.x <= (monster.x + 32)
-		&& monster.x <= (hero.x + 32)
-		&& hero.y <= (monster.y + 32)
-		&& monster.y <= (hero.y + 32)
+		hero.x <= (mexican.x + 32)
+		&& mexican.x <= (hero.x + 32)
+		&& hero.y <= (mexican.y + 32)
+		&& mexican.y <= (hero.y + 32)
 	) {
-	//	++monstersCaught;
-		//reset();
 
         heroHealth.value -= 1;
         if(heroHealth.value <= 0)
@@ -141,43 +196,119 @@ var update = function (modifier) {
             alert("You are dead !")
             }
 	}
+
+
+    //Brick count
+    if (
+		hero.x <= (brick.x + 32)
+		&& brick.x <= (hero.x + 32)
+		&& hero.y <= (brick.y + 32)
+		&& brick.y <= (hero.y + 32)
+	) {
+
+        bricksCount++;
+        resetBrick();
+
+	}
+
+
 };
 
+let mexicans = [];
 
-//Move mexicans
-var redrawMexicans = function(modifier){
 
-   // monster.x=monster.x - 1;
-    var diffx = Math.floor(hero.x - monster.x);
-    var diffy = Math.floor(hero.y - monster.y);
+
+function drawMexicans(){
+
+    mexicans.forEach(function(mexican, i){
+            if(mexicanReady){
+                ctx.drawImage(mexicanImage, mexican.x, mexican.y);
+            }
+    });
+}
+
+function mexicanMove(modifier){
+
+    mexicans.forEach(function(mexican){
+
+        if(!(mexican.dead))
+            {
+
+
+
+    var diffx = Math.floor(hero.x - mexican.x);
+    var diffy = Math.floor(hero.y - mexican.y);
 
     //Distance min between trump and mexicans
-    var gap = 20;
+    let gap = 20;
 
 
-    //Set movement of the ennemies
     if (diffy < -gap) { // Player holding up
-		monster.y -= monster.speed * modifier;
+		mexican.y -= mexican.y * modifier;
 	}
 	if (diffy > gap) { // Player holding down
-		monster.y += monster.speed * modifier;
+		mexican.y += mexican.y * modifier;
 	}
 	if (diffx < -gap) { // Player holding left
-		monster.x -= monster.speed * modifier;
+		mexican.x -= mexican.x * modifier;
 	}
 	if (diffx > gap) { // Player holding right
-		monster.x += monster.speed * modifier;
+		mexican.x += mexican.x * modifier;
 	}
 
-
-    if (monsterReady) {
-		ctx.drawImage(monsterImage, monster.x, monster.y);
+        //when mexicans touch our President
+        if (
+		  hero.x <= (mexican.x + 32)
+		  && mexican.x <= (hero.x + 32)
+		  && hero.y <= (mexican.y + 32)
+		  && mexican.y <= (hero.y + 32)
+	       )
+        {
+        //Decrease life of Trump
+        heroHealth.value -= 1;
+        if(heroHealth.value <= 0)
+            {
+            alert("You are dead !")
+            }
 	}
+
+        //when bullets touch a mexican
+
+       for(let i=0; i<bullets.length;i++)
+           {
+
+            if(
+                mexican.x <= (bullets[i].x + 32)
+                && bullets[i].x <= (mexican.x + 32)
+		        && mexican.y <= (bullets[i].y + 32)
+		        && bullets[i].y <= (mexican.y + 32)
+	           )
+            {
+                mexican.life -= 1;
+                console.log("Touched !!!!")
+                if(mexican.life <= 0)
+                    {
+                       mexican.dead = true;
+                    }
+            }
+           }
+        }
+    });
+}
+
+
+function resetBrick(){
+
+    brick.x = 32 + (Math.random() * (canvas.width - 64));
+	brick.y = 32 + (Math.random() * (canvas.height - 64));
 
 }
 
 // Draw everything
 var render = function () {
+
+
+
 	if (bgReady) {
 		ctx.drawImage(bgImage, 0, 0);
 	}
@@ -186,29 +317,61 @@ var render = function () {
 		ctx.drawImage(heroImage, hero.x, hero.y);
 	}
 
-	if (monsterReady) {
-		ctx.drawImage(monsterImage, monster.x, monster.y);
+    if (brickReady) {
+		ctx.drawImage(brickImage, brick.x, brick.y);
 	}
 
+
+
+     if (bullets.length !== 0) {
+        for(let i = 0; i < bullets.length; i++){
+            bullets[i].Update();
+            bullets[i].Draw();
+            ctx.drawImage(bulletImage, bullets[i].x, bullets[i].y);
+        }
+    }
+
 	// Score
-	ctx.fillStyle = "rgb(250, 250, 250)";
-	ctx.font = "24px Helvetica";
+	//ctx.fillStyle = "rgb(250, 250, 250)";
+	//ctx.font = "24px Helvetica";
 	//ctx.textAlign = "left";
 	//ctx.textBaseline = "top";
-	ctx.fillText("Goblins caught: " + monstersCaught, 32, 32);
+	//ctx.fillText("Goblins caught: " + mexicansCaught, 32, 32);
+    document.getElementById("bricks").innerHTML = bricksCount;
 };
+
+
+let totalMexicans = 0;
+let startingPos = true;
 
 // The main game loop
 var main = function () {
 	var now = Date.now();
 	var delta = now - then;
 
-	update(delta / 1000);
-	render();
 
-	then = now;
 
-    setInterval(redrawMexicans(delta / 1000), 1000);
+
+    render();
+
+    if(startingPos)
+    {
+        for(let i = 0; i < 5; i++)
+        {
+            mexicans.push(new mexican());
+        }
+
+        startingPos = false;
+    }
+
+    then = now;
+
+    update(delta / 1000);
+
+    mexicanMove(delta/1000);
+
+    setInterval(drawMexicans(), 40);
+
 
 
 	// Request to do this again ASAP
