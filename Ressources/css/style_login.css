@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:200,400,400i,700|Roboto+Slab:700');
+
+/* <link rel="stylesheet" type="text/css" href="http://www.example.com/style.css?ts=<?=time()?>" />*/
+
+
+
+* {
+
+  box-sizing: border-box;
+  font-family: Montserrat;
+  margin:0 auto;
+
+}
+
+
+
+
+ html {
+  height: 100%;
+/*     No scroolbar*/
+     overflow: hidden;
+}
+
+
+
+
+
+body {
+
+   /* getting the image and putting it into grey */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/Ressources/Images/walliscoming.png');
+  /* Full height */
+  height: 100%;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+
+}
+
+
+
+/* Full-width input fields */
+  input[type=text] {
+  width: 80%;
+  padding: 15px;
+  margin: 10px 0 10px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+
+
+
+
+
+
+input {
+
+  border-radius: 20px;
+  box-shadow: 0 5px #999;
+
+}
+
+
+
+form {
+
+  text-align: center;
+  padding: 40px;
+  width: 560px;
+  height: 230px;
+  background-image:  url('/Ressources/Images/formBackground.jpg');
+
+
+}
+
+.container {
+
+    padding: 200px;
+    margin: auto 0;
+    text-align: center;
+
+}
+
+
+
+
+
+h1 {
+
+    color: #cc3333;
+    font-size: 34px;
+    text-align: center;
+
+}
+
+#maga {
+
+    position: absolute;
+    padding:  20px;
+    width: 350px;
+    height: 230px;
+}
+
+
+
+
+
+.btn {
+      font-size: 20px;
+  width: 250px;
+  height: 50px;
+  color: #fff;
+  background-color: #0a2960;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 5px #999;
+  font-variant-caps: all-petite-caps;
+}
+
+.btn:hover {
+
+  opacity: 1;
+
+}
+
+.btnMusic {
+  font-size: 15px;
+  width: 100px;
+  margin: 10px;
+  padding: 0;
+  height: 40px;
+  color: #fff;
+  background-color: #0a2960;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 5px #999;
+  font-variant-caps: all-petite-caps;
+
+}
+
+.btnMusic:hover {
+
+  opacity: 1;
+
+}
+
+

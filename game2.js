@@ -9,6 +9,11 @@ let ctx = canvas.getContext("2d");
 //canvas.height = 1080;
 
 
+
+//start the timer
+startTime = new Date();
+
+
 document.body.appendChild(canvas);
 
 
@@ -193,7 +198,18 @@ var update = function (modifier) {
         heroHealth.value -= 1;
         if(heroHealth.value <= 0)
             {
-            alert("You are dead !")
+              endTime = new Date();
+              var timeDiff = endTime - startTime; //in miliseconds
+              timeDiff /= 1000;
+
+              // get seconds
+              var seconds = Math.round(timeDiff);
+
+                //store in local storage
+              localStorage.setItem("Chrono", seconds);
+                //start new window
+               window.open("halloffame.html", "_self")
+
             }
 	}
 
@@ -268,8 +284,23 @@ function mexicanMove(modifier){
         heroHealth.value -= 1;
         if(heroHealth.value <= 0)
             {
-            alert("You are dead !")
+
+              //when Trump dies, go to the hall of fame
+
+              endTime = new Date();
+              var timeDiff = endTime - startTime; //in miliseconds
+              timeDiff /= 1000;
+
+              // get seconds
+              var seconds = Math.round(timeDiff);
+
+                //store in local storage
+              localStorage.setItem("Chrono", seconds);
+                //start new window
+               window.open("halloffame.html", "_self")
             }
+
+
 	}
 
         //when bullets touch a mexican

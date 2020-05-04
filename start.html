@@ -6,10 +6,22 @@
 
 <body>
 <header>
-  <h1>Trump and the south threat !</h1>
+  <h1>Trump and the southern threat !</h1>
 
 <h2>Health bar:</h2>
-<progress id="health" value="100000" max="100000"></progress>
+
+
+<div id="nickname">
+
+    <script>
+    document.getElementById("nickname").innerHTML = "Get get them, " + localStorage.getItem('UserNickname') + " !";
+    </script>
+
+
+</div>
+
+
+<progress id="health" value="1000" max="1000"></progress>
 
 
 <h2>Bricks: <span id="bricks"></span></h2>
