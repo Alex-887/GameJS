@@ -12,13 +12,25 @@ let ctx = canvas.getContext("2d");
 document.body.appendChild(canvas);
 
 
-// Background image
+// Background images
 var bgReady = false;
 var bgImage = new Image();
 bgImage.onload = function () {
 	bgReady = true;
 };
 bgImage.src = "Ressources/Images/bg.png";
+
+let bgWallCrush = new Image();
+bgWallCrush.src ="Ressources/Images/bgWallCrush.png";
+
+let bgWall = new Image();
+bgWall.src = "Ressources/Images/bgWall.png";
+
+let mapOrganisation = [bgWallCrush, bgWallCrush, bgImage, bgImage];
+
+//Starting the game on the third map
+//Use for change the map
+let mapNumber = 2;
 
 // Hero image
 var heroReady = false;
@@ -65,6 +77,8 @@ let bullets = [];
 
 
 // Game objects *******************************************************v
+
+
 
 let hero = {
 	speed: 512, // movement in pixels per second
@@ -116,11 +130,6 @@ let brick = {
 
 // Game objects *******************************************************
 
-
-
-
-
-
 // Handle keyboard controls
 var keysDown = {};
 
@@ -153,34 +162,119 @@ var reset = function () {
 
 // Update game objects
 var update = function (modifier) {
+
 	if (38 in keysDown) { // Player holding up
 		hero.y -= hero.speed * modifier;
         hero.angle = 44;
         if(hero.y < 0){
-            hero.y = 0;
+
+         switch(mapNumber){
+
+            case 0:
+                hero.y = 0;
+                break;
+
+            case 1:
+                hero.y = 0;
+                break;
+
+            case 2:
+                mapNumber=0;
+                break;
+
+            case 3:
+                mapNumber=1;
+                break;
+
+            }
         }
 	}
+
 	if (40 in keysDown) { // Player holding down
 		hero.y += hero.speed * modifier;
         hero.angle = 250;
         if (hero.y + hero.size > ctx.canvas.height){
             //hero.y -= 50;
-            hero.y = ctx.canvas.height + hero.size;
+            //hero.y = ctx.canvas.height + hero.size;
+
+        switch(mapNumber){
+
+            case 0:
+                mapNumber=2;
+                break;
+
+            case 1:
+                mapNumber=3;
+                break;
+
+            case 2:
+                hero.y = ctx.canvas.height + hero.size;
+                break;
+
+            case 3:
+                hero.y = ctx.canvas.height + hero.size;
+                break;
+
         }
+      }
+
 	}
+
 	if (37 in keysDown) { // Player holding left
 		hero.x -= hero.speed * modifier;
         hero.angle = 0;
         if (hero.x < 0){
-            hero.x = 0;
+           //hero.x = 0;
+
+     switch(mapNumber){
+
+            case 0:
+                hero.x = 0;
+                break;
+
+            case 1:
+                mapNumber=0;
+                break;
+
+            case 2:
+                hero.x = 0;
+                break;
+
+            case 3:
+                mapNumber=2;
+                break;
+
         }
+      }
 	}
+
 	if (39 in keysDown) { // Player holding right
 		hero.x += hero.speed * modifier;
         hero.angle = 181;
         if (hero.x + hero.size > ctx.canvas.width){
-            hero.x = 1850;
+            //hero.x = 1850;
+
+
+       switch(mapNumber){
+
+            case 0:
+                mapNumber=1;
+                break;
+
+            case 1:
+                hero.x = 1850;
+                break;
+
+            case 2:
+                mapNumber=3;
+                break;
+
+            case 3:
+                hero.x = 1850;
+                break;
+
         }
+      }
 	}
 
 	// When the mexican touches Trump
@@ -219,7 +313,7 @@ var update = function (modifier) {
 
 
 let mexicans = [];
-
+let totalMexicans = 0;
 
 
 function drawMexicans(){
@@ -237,8 +331,6 @@ function mexicanMove(modifier){
 
         if(!(mexican.dead))
             {
-
-
 
     var diffx = Math.floor(hero.x - mexican.x);
     var diffy = Math.floor(hero.y - mexican.y);
@@ -289,6 +381,7 @@ function mexicanMove(modifier){
 	           )
             {
                 mexican.life -= 1;
+                totalMexicans -= 1;
                 console.log("Touched !!!!")
                 if(mexican.life <= 0)
                     {
@@ -308,14 +401,19 @@ function resetBrick(){
 
 }
 
+
+function background(number){
+
+        ctx.drawImage(mapOrganisation[number], 0, 0);
+
+
+};
+
 // Draw everything
 var render = function () {
 
 
 
-	if (bgReady) {
-		ctx.drawImage(bgImage, 0, 0);
-	}
 
 	if (heroReady) {
 		ctx.drawImage(heroImage, hero.x, hero.y);
@@ -345,7 +443,7 @@ var render = function () {
 };
 
 
-let totalMexicans = 0;
+
 let startingPos = true;
 
 // The main game loop
@@ -354,10 +452,11 @@ var main = function () {
 	var delta = now - then;
 
 
-
+    background(mapNumber);
 
     render();
 
+    /*
     if(startingPos)
     {
         for(let i = 0; i < 5; i++)
@@ -366,13 +465,21 @@ var main = function () {
         }
 
         startingPos = false;
-    }
+    }*/
+
+    /*
+    while(totalMexicans < 5)
+    {
+        mexicans.push(new mexican());
+        totalMexicans++;
+    }*/
+
 
     then = now;
 
     update(delta / 1000);
 
-    mexicanMove(delta/1000);
+    mexicanMove(delta / 8000);
 
     setInterval(drawMexicans(), 40);
 
