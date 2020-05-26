@@ -43,7 +43,7 @@ var heroImage = new Image();
 heroImage.onload = function () {
 	heroReady = true;
 }
-heroImage.src = "Ressources/Images/Trump-removebg-preview.png";
+heroImage.src = "Ressources/Images/Trump.png";
 
 // mexican image
 var mexicanReady = false;
@@ -51,7 +51,7 @@ var mexicanImage = new Image();
 mexicanImage.onload = function () {
 	mexicanReady = true;
 }
-mexicanImage.src = "Ressources/Images/Mexican-removebg-preview.png";
+mexicanImage.src = "Ressources/Images/Mexican.png";
 
 // Brick image
 let brickReady = false;
@@ -68,7 +68,7 @@ let bulletImage = new Image();
 bulletImage.onload = function(){
     bulletReady = true;
 }
-bulletImage.src = "Ressources/Images/star.png";
+bulletImage.src = "Ressources/Images/bulletSmall.png";
 
 
 
@@ -282,32 +282,6 @@ var update = function (modifier) {
       }
 	}
 
-	// When the mexican touches Trump
-
-	if (
-		hero.x <= (mexican.x + 32)
-		&& mexican.x <= (hero.x + 32)
-		&& hero.y <= (mexican.y + 32)
-		&& mexican.y <= (hero.y + 32)
-	) {
-
-        heroHealth.value -= 1;
-        if(heroHealth.value <= 0)
-            {
-              endTime = new Date();
-              var timeDiff = endTime - startTime; //in miliseconds
-              timeDiff /= 1000;
-
-              // get seconds
-              var seconds = Math.round(timeDiff);
-
-                //store in local storage
-              localStorage.setItem("Chrono", seconds);
-                //start new window
-               window.open("halloffame.html", "_self")
-
-            }
-	}
 
 
     //Brick count
@@ -377,6 +351,7 @@ function mexicanMove(modifier){
 	       )
         {
         //Decrease life of Trump
+
         heroHealth.value -= 1;
         if(heroHealth.value <= 0)
             {
@@ -394,6 +369,7 @@ function mexicanMove(modifier){
               localStorage.setItem("Chrono", seconds);
                 //start new window
                window.open("halloffame.html", "_self")
+               localStorage.setItem('winner', false);
             }
 
 
@@ -487,7 +463,7 @@ var main = function () {
 
     render();
 
-    /*
+
     if(startingPos)
     {
         for(let i = 0; i < 5; i++)
@@ -496,14 +472,14 @@ var main = function () {
         }
 
         startingPos = false;
-    }*/
+    }
 
-    /*
+
     while(totalMexicans < 5)
     {
         mexicans.push(new mexican());
         totalMexicans++;
-    }*/
+    }
 
 
     then = now;

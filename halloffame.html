@@ -9,16 +9,48 @@
 
 
 </head>
-    <body>
 
 
-        <div id="count">
+    <h1>Wall of fame</h1>
+
+
+    <h2 id="winner_loser">Another victory for the Republicans ! Good job ! </h2>
+
+
+
+    <script>
+            if(localStorage.getItem("winner") == "false")
+            {
+            document.getElementById("winner_loser").innerHTML = "Mr President " + localStorage.getItem("UserNickname") + ", you are hit !"
+            };
+    </script>
+
+
+
+    <h3 id="score"></h3>
+
 
         <script type="text/javascript">
-              document.getElementById("count").innerHTML = "Time : " + localStorage.getItem("Chrono") + " seconds";
-          </script>
+              document.getElementById("score").innerHTML = "Time alive : " + localStorage.getItem("Chrono") + " seconds";
+        </script>
+
+
+    <body>
+
+        <div class="empty">
+
+        <div class="fill" draggable="true"></div>
 
         </div>
+
+
+        <div class ="empty">
+        </div>
+
+
+        <script src="DragAndDrop.js"></script>
+
+
 
 
     </body>

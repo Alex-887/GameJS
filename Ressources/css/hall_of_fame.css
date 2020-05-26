@@ -9,6 +9,7 @@
   box-sizing: border-box;
   font-family: Montserrat;
   margin:0 auto;
+  text-align: center;
 
 }
 
@@ -17,7 +18,7 @@
 
  html {
   height: 100%;
-     overflow: hidden;
+  overflow: hidden;
 }
 
 
@@ -53,7 +54,77 @@ body {
 h1 {
 
     color: #cc3333;
-    font-size: 34px;
+    font-size: 70px;
     text-align: center;
 
+
+
 }
+
+
+
+
+
+h2 {
+     color: #cc3333;
+     font-size: 40px;
+     margin-top: 20px;
+
+}
+
+
+
+h3 {
+        font-size: 50px;
+    margin-top: 50px;
+      color: #fff;
+}
+
+
+.fill {
+
+    background-image: url('/Ressources/Images/dragndrop.png');
+    position: relative;
+    height: 150px;
+    width: 150px;
+    top: 5px;
+    left: 5px;
+    cursor:pointer;
+
+}
+
+
+
+
+.empty {
+
+    display: inline-block;
+    height: 160px;
+    width: 160px;
+    margin: 10px;
+    border: 3px salmon solid;
+    background-color: white;
+
+
+}
+
+
+.hold{
+    border: solid #ccc 4px;
+
+}
+
+.hovered {
+    background: #f4f4f4;
+    border-style: dashed;
+
+}
+
+.invisible {
+
+    display: none;
+
+}
+
+
+
