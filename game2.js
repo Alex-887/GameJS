@@ -84,7 +84,6 @@ let bullets = [];
 // Game objects *******************************************************v
 
 
-
 let hero = {
 	speed: 512, // movement in pixels per second
     size: 30,
@@ -175,20 +174,29 @@ var update = function (modifier) {
 
          switch(mapNumber){
 
+
+            //position in map: [X|0
+            //                  0|0]
             case 0:
                 hero.y = 0;
                 break;
 
+            //position in map: [0|X
+            //                  0|0]
             case 1:
                 hero.y = 0;
                 break;
-
+            //position in map: [0|0
+            //                  X|0]
             case 2:
                 mapNumber=0;
+                hero.y = ctx.canvas.height + hero.size;
                 break;
-
+            //position in map: [0|0
+            //                  0|X]
             case 3:
                 mapNumber=1;
+                hero.y = ctx.canvas.height + hero.size;
                 break;
 
             }
@@ -199,23 +207,28 @@ var update = function (modifier) {
 		hero.y += hero.speed * modifier;
         hero.angle = 250;
         if (hero.y + hero.size > ctx.canvas.height){
-            //hero.y -= 50;
-            //hero.y = ctx.canvas.height + hero.size;
+
 
         switch(mapNumber){
-
+            //position in map: [X|0
+            //                  0|0]
             case 0:
                 mapNumber=2;
+                hero.y = 0;
                 break;
-
+            //position in map: [0|X
+            //                  0|0]
             case 1:
                 mapNumber=3;
+                hero.y = 0;
                 break;
-
+            //position in map: [0|0
+            //                  X|0]
             case 2:
                 hero.y = ctx.canvas.height + hero.size;
                 break;
-
+            //position in map: [0|0
+            //                  0|X]
             case 3:
                 hero.y = ctx.canvas.height + hero.size;
                 break;
@@ -229,24 +242,30 @@ var update = function (modifier) {
 		hero.x -= hero.speed * modifier;
         hero.angle = 0;
         if (hero.x < 0){
-           //hero.x = 0;
+
 
      switch(mapNumber){
-
+            //position in map: [X|0
+            //                  0|0]
             case 0:
                 hero.x = 0;
                 break;
-
+            //position in map: [0|X
+            //                  0|0]
             case 1:
                 mapNumber=0;
+                hero.x = 1850;
                 break;
-
+            //position in map: [0|0
+            //                  X|0]
             case 2:
                 hero.x = 0;
                 break;
-
+            //position in map: [0|0
+            //                  0|X]
             case 3:
                 mapNumber=2;
+                hero.x = 1850;
                 break;
 
         }
@@ -257,23 +276,29 @@ var update = function (modifier) {
 		hero.x += hero.speed * modifier;
         hero.angle = 181;
         if (hero.x + hero.size > ctx.canvas.width){
-            //hero.x = 1850;
+
 
 
        switch(mapNumber){
-
+            //position in map: [X|0
+            //                  0|0]
             case 0:
                 mapNumber=1;
+                hero.x = 0;
                 break;
-
+            //position in map: [0|X
+            //                  0|0]
             case 1:
                 hero.x = 1850;
                 break;
-
+            //position in map: [0|0
+            //                  X|0]
             case 2:
                 mapNumber=3;
+                hero.x = 0;
                 break;
-
+            //position in map: [0|0
+            //                  0|X]
             case 3:
                 hero.x = 1850;
                 break;
@@ -303,8 +328,6 @@ var update = function (modifier) {
 
 
 let mexicans = [];
-let totalMexicans = 0;
-
 
 function drawMexicans(){
 
@@ -314,6 +337,7 @@ function drawMexicans(){
             }
     });
 }
+
 
 function mexicanMove(modifier){
 
@@ -413,14 +437,10 @@ function background(number){
 
         ctx.drawImage(mapOrganisation[number], 0, 0);
 
-
 };
 
 // Draw everything
 var render = function () {
-
-
-
 
 	if (heroReady) {
 		ctx.drawImage(heroImage, hero.x, hero.y);
@@ -440,18 +460,17 @@ var render = function () {
         }
     }
 
-	// Score
-	//ctx.fillStyle = "rgb(250, 250, 250)";
-	//ctx.font = "24px Helvetica";
-	//ctx.textAlign = "left";
-	//ctx.textBaseline = "top";
-	//ctx.fillText("Goblins caught: " + mexicansCaught, 32, 32);
+	// brick count
     document.getElementById("bricks").innerHTML = bricksCount;
 };
 
 
+let spawnRate = 100;
+let spawnRateCountdown = spawnRate;
 
-let startingPos = true;
+let count;
+
+let started = true;
 
 // The main game loop
 var main = function () {
@@ -463,24 +482,29 @@ var main = function () {
 
     render();
 
+    //Enemy spawn loop
 
-    if(startingPos)
-    {
-        for(let i = 0; i < 5; i++)
+    /*
+    spawnRateCountdown--;
+
+    if(spawnRateCountdown == 0)
         {
+            spawnRateCountdown = spawnRate;
             mexicans.push(new mexican());
         }
+    */
 
-        startingPos = false;
+    if (started){
+
+            for(count = 0; count < 5; count++){
+
+            mexicans.push(new mexican());
+
+            }
+
+        started = false;
+
     }
-
-
-    while(totalMexicans < 5)
-    {
-        mexicans.push(new mexican());
-        totalMexicans++;
-    }
-
 
     then = now;
 
@@ -488,9 +512,7 @@ var main = function () {
 
     mexicanMove(delta / 8000);
 
-    setInterval(drawMexicans(), 40);
-
-
+    drawMexicans();
 
 	// Request to do this again ASAP
 	requestAnimationFrame(main);
