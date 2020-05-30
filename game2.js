@@ -45,6 +45,9 @@ heroImage.onload = function () {
 }
 heroImage.src = "Ressources/Images/Trump.png";
 
+
+
+
 // mexican image
 var mexicanReady = false;
 var mexicanImage = new Image();
@@ -52,6 +55,31 @@ mexicanImage.onload = function () {
 	mexicanReady = true;
 }
 mexicanImage.src = "Ressources/Images/Mexican.png";
+
+
+// mexican image DEAD
+var mexicanDead = false ;
+var mexicanImageDEAD = new Image();
+mexicanImageDEAD.onload = function () {
+	mexicanDead = true;
+}
+mexicanImageDEAD.src = "Ressources/Images/MexicanDown.png";
+
+// mexican image FLIP
+var mexicanFlipReady = false;
+var mexicanFlipImage = new Image();
+mexicanFlipImage.onload = function () {
+	mexicanFlipReady = true;
+}
+mexicanFlipImage.src = "Ressources/Images/MexicanFlip.png";
+
+
+
+
+
+
+
+
 
 // Brick image
 let brickReady = false;
@@ -81,9 +109,12 @@ let heroHealth = document.getElementById("health");
 let bullets = [];
 
 
+<<<<<<< HEAD
 // Game objects *******************************************************v
 
 
+=======
+>>>>>>> origin/master
 let hero = {
 	speed: 512, // movement in pixels per second
     size: 30,
@@ -102,7 +133,7 @@ class Bullet{
         this.angle = angle;
         this.height = 6;
         this.width = 6;
-        this.speed = 5;
+        this.speed = 7;
         this.velX = 0;
         this.velY = 0;
     }
@@ -124,6 +155,7 @@ class mexican{
         this.speed= 18;
         this.life= 2 ;
         this.dead = false;
+        this.image = mexicanImage;
     }
 }
 
@@ -132,7 +164,7 @@ let brick = {
 
 
 
-// Game objects *******************************************************
+
 
 // Handle keyboard controls
 var keysDown = {};
@@ -241,6 +273,15 @@ var update = function (modifier) {
 	if (37 in keysDown) { // Player holding left
 		hero.x -= hero.speed * modifier;
         hero.angle = 0;
+
+         //Change the image if the player changes direction
+        heroReady = false;
+        heroImage = new Image();
+        heroImage.onload = function () {
+	       heroReady = true;
+        }
+        heroImage.src = "Ressources/Images/Trump.png";
+
         if (hero.x < 0){
 
 
@@ -275,6 +316,17 @@ var update = function (modifier) {
 	if (39 in keysDown) { // Player holding right
 		hero.x += hero.speed * modifier;
         hero.angle = 181;
+
+        //Change the image if the player changes direction
+        heroReady = false;
+        heroImage = new Image();
+        heroImage.onload = function () {
+	       heroReady = true;
+        }
+        heroImage.src = "Ressources/Images/TrumpFlip.png";
+
+
+
         if (hero.x + hero.size > ctx.canvas.width){
 
 
@@ -333,40 +385,55 @@ function drawMexicans(){
 
     mexicans.forEach(function(mexican, i){
             if(mexicanReady){
-                ctx.drawImage(mexicanImage, mexican.x, mexican.y);
+                ctx.drawImage(mexican.image, mexican.x, mexican.y);
             }
     });
 }
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> origin/master
 function mexicanMove(modifier){
 
     mexicans.forEach(function(mexican){
 
-        if(!(mexican.dead))
-            {
+    if(!(mexican.dead))
+    {
 
-    var diffx = Math.floor(hero.x - mexican.x);
-    var diffy = Math.floor(hero.y - mexican.y);
+        var diffx = Math.floor(hero.x - mexican.x);
+        var diffy = Math.floor(hero.y - mexican.y);
 
-    //Distance min between trump and mexicans
-    let gap = 20;
+        //Distance min between trump and mexicans
+        let gap = 20;
 
 
-    if (diffy < -gap) { // Player holding up
-		mexican.y -= mexican.y * modifier;
-	}
-	if (diffy > gap) { // Player holding down
+        if (diffy < -gap) { // Player holding up
+		  mexican.y -= mexican.y * modifier;
+	   }
+	   if (diffy > gap) { // Player holding down
 		mexican.y += mexican.y * modifier;
-	}
-	if (diffx < -gap) { // Player holding left
+	   }
+	   if (diffx < -gap) { // Player holding left
 		mexican.x -= mexican.x * modifier;
-	}
+
+
+
+        //Mexican changes direction
+        mexican.image = mexicanFlipImage;
+
+	   }
 	if (diffx > gap) { // Player holding right
 		mexican.x += mexican.x * modifier;
+
+        //Mexican changes direction
+        mexican.image = mexicanImage;
+
 	}
 
-        //when mexicans touch our President
+        //when mexicans touch our precious President
         if (
 		  hero.x <= (mexican.x + 32)
 		  && mexican.x <= (hero.x + 32)
@@ -374,8 +441,8 @@ function mexicanMove(modifier){
 		  && mexican.y <= (hero.y + 32)
 	       )
         {
-        //Decrease life of Trump
 
+        //Decrease life of our Trump
         heroHealth.value -= 1;
         if(heroHealth.value <= 0)
             {
@@ -413,11 +480,11 @@ function mexicanMove(modifier){
             {
                 mexican.life -= 1;
                 totalMexicans -= 1;
-                console.log("Touched !!!!")
                 if(mexican.life <= 0)
-                    {
-                       mexican.dead = true;
-                    }
+                {
+                    mexican.dead = true;
+                    mexican.image = mexicanImageDEAD;
+                }
             }
            }
         }
@@ -496,6 +563,7 @@ var main = function () {
 
     if (started){
 
+<<<<<<< HEAD
             for(count = 0; count < 5; count++){
 
             mexicans.push(new mexican());
@@ -506,6 +574,8 @@ var main = function () {
 
     }
 
+=======
+>>>>>>> origin/master
     then = now;
 
     update(delta / 1000);
