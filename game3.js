@@ -1,12 +1,12 @@
 // Create the canvas
-//var canvas = document.createElement("canvas");
-//var ctx = canvas.getContext("2d");
 
 let mapHeroCanvas = document.getElementById("mapHerolayer");
 let mexicanCanvas = document.getElementById("enemyLayer");
 
 let mapHeroCtx = mapHeroCanvas.getContext("2d");
 let mexicanCtx = mexicanCanvas.getContext("2d");
+
+
 
 //start the timer
 startTime = new Date();
@@ -16,8 +16,8 @@ document.body.appendChild(mapHeroCanvas);
 
 
 // Background images
-var bgReady = false;
-var bgImage = new Image();
+let bgReady = false;
+let bgImage = new Image();
 bgImage.onload = function () {
 	bgReady = true;
 };
@@ -36,8 +36,8 @@ let mapOrganisation = [bgWallCrush, bgWallCrush, bgImage, bgImage];
 let mapNumber = 2;
 
 // Hero image
-var heroReady = false;
-var heroImage = new Image();
+let heroReady = false;
+let heroImage = new Image();
 heroImage.onload = function () {
 	heroReady = true;
 }
@@ -47,8 +47,8 @@ heroImage.src = "Ressources/Images/Trump.png";
 
 
 // mexican image
-var mexicanReady = false;
-var mexicanImage = new Image();
+let mexicanReady = false;
+let mexicanImage = new Image();
 mexicanImage.onload = function () {
 	mexicanReady = true;
 }
@@ -89,12 +89,13 @@ bulletImage.onload = function(){
 }
 bulletImage.src = "Ressources/Images/bulletSmall.png";
 
+
+
 // Game objects *******************************************************v
+
 
 let bricksCount = 0;
 let totalMexicansKills = 0;
-
-let spawnBrick = true;
 
 let heroHealth = document.getElementById("health");
 
@@ -103,6 +104,7 @@ let shotAudio = new Audio("Ressources/audio/shot.mp3");
 
 let bullets = [];
 let mexicans = [];
+let bricks = [];
 
 let hero = {
 	speed: 512, // movement in pixels per second
@@ -126,14 +128,15 @@ class Bullet{
         this.velX = 0;
         this.velY = 0;
     }
+
     Update(){
         let radians = this.angle / Math.PI * 180;
         this.x -= Math.cos(radians) * this.speed;
         this.y -= Math.sin(radians) * this.speed;
     }
     Draw(){
-        ds.fillStyle = 'black';
-        ds.fillRect(this.x,this.y,this.width,this.height);
+        mapHeroCtx.fillStyle = 'black';
+        mapHeroCtx.fillRect(this.x,this.y,this.width,this.height);
     }
 }
 
@@ -148,14 +151,21 @@ class mexican{
     }
 }
 
-let brick = {
+class brick{
+    constructor(x, y){
+        this.x = x;
+        this.y = y;
+        this.status = true;
+        this.image = brickImage;
+    }
 }
 
+// Game objects *******************************************************v
 
 // Handle keyboard controls
 var keysDown = {};
 
-addEventListener("key down", function (e) {
+addEventListener("keydown", function (e) {
 	keysDown[e.keyCode] = true;
 }, false);
 
@@ -167,14 +177,16 @@ addEventListener("keyup", function (e) {
     }
 }, false);
 
-// Reset the game when the player catches a mexican
+
+// Spawn the hero and the mexicans
 
 var reset = function () {
+    //Spawn the hero
 	hero.x = mapHeroCanvas.width / 2;
 	hero.y = mapHeroCanvas.height / 2;
 
-    brick.x = 32 + (Math.random() * (mapHeroCanvas.width - 64));
-	brick.y = 32 + (Math.random() * (mapHeroCanvas.height - 64));
+    //brick.x = 32 + (Math.random() * (mapHeroCanvas.width - 64));
+	//brick.y = 32 + (Math.random() * (mapHeroCanvas.height - 64));
 
 	// Throw the mexican somewhere on the screen randomly
 	mexican.x = 32 + (Math.random() * (mapHeroCanvas.width - 64));
@@ -182,18 +194,35 @@ var reset = function () {
 };
 
 
-function deleteAllEnemies(){
-
+//Delete all enemies after changing map
+function deleteEnemies(){
     /*
+    for (let i = 0; i < mexicans.length; i++){
+
+            mexicans.splice(i, 1);
+
+    }*/
+
     mexicans.forEach(function(mexican, i){
-            mexican.dead = true;
+
+
+        mexicans.splice(i, 1);
+
     });
 
-   mexicanCtx.globalAlpha = 0;
-    */
+}
 
-    //mexicanCtx.restore();
-};
+//Delete all bricks after changing map
+function deleteBricks(){
+
+    bricks.forEach(function(brick, i){
+
+        bricks.splice(i, 1);
+
+    });
+
+
+}
 
 // Update game objects
 var update = function (modifier) {
@@ -220,13 +249,16 @@ var update = function (modifier) {
             //                  X|0]
             case 2:
                 mapNumber=0;
-                //deleteAllEnemies();
+                deleteEnemies();
+                deleteBricks();
                 hero.y = mapHeroCtx.canvas.height + hero.size;
                 break;
             //position in map: [0|0
             //                  0|X]
             case 3:
                 mapNumber=1;
+                deleteEnemies();
+                deleteBricks();
                 hero.y = mapHeroCtx.canvas.height + hero.size;
                 break;
 
@@ -245,12 +277,16 @@ var update = function (modifier) {
             //                  0|0]
             case 0:
                 mapNumber=2;
+                deleteEnemies();
+                deleteBricks();
                 hero.y = 0;
                 break;
             //position in map: [0|X
             //                  0|0]
             case 1:
                 mapNumber=3;
+                deleteEnemies();
+                deleteBricks();
                 hero.y = 0;
                 break;
             //position in map: [0|0
@@ -294,6 +330,8 @@ var update = function (modifier) {
             //                  0|0]
             case 1:
                 mapNumber=0;
+             deleteEnemies();
+             deleteBricks();
                 hero.x = 1850;
                 break;
             //position in map: [0|0
@@ -305,6 +343,8 @@ var update = function (modifier) {
             //                  0|X]
             case 3:
                 mapNumber=2;
+             deleteEnemies();
+             deleteBricks();
                 hero.x = 1850;
                 break;
 
@@ -335,6 +375,8 @@ var update = function (modifier) {
             //                  0|0]
             case 0:
                 mapNumber=1;
+               deleteEnemies();
+               deleteBricks();
                 hero.x = 0;
                 break;
             //position in map: [0|X
@@ -346,6 +388,8 @@ var update = function (modifier) {
             //                  X|0]
             case 2:
                 mapNumber=3;
+               deleteEnemies();
+               deleteBricks();
                 hero.x = 0;
                 break;
             //position in map: [0|0
@@ -359,24 +403,26 @@ var update = function (modifier) {
 	}
 
 
+    //Count and Delete brick
+    bricks.forEach(function(brick, i){
 
-    //Brick count
-    if (
-		hero.x <= (brick.x + 32)
-		&& brick.x <= (hero.x + 32)
-		&& hero.y <= (brick.y + 32)
-		&& brick.y <= (hero.y + 32)
-	) {
+            if(
+                hero.x <= (brick.x + 32)
+                && brick.x <= (hero.x + 32)
+		        && hero.y <= (brick.y + 32)
+		        && brick.y <= (hero.y + 32)
+	           )
+            {
+                brick.status = false;
+                bricksCount++;
+                deleteBrick();
+            }
 
-        bricksCount++;
-        resetBrick();
-
-	}
-
+    });
 
 };
 
-
+// Draw the sprite of each mexican
 function drawMexicans(){
 
     mexicans.forEach(function(mexican, i){
@@ -386,6 +432,7 @@ function drawMexicans(){
     });
 }
 
+// The mexicans follow Trump
 function mexicanMove(modifier){
 
     mexicans.forEach(function(mexican){
@@ -401,7 +448,7 @@ function mexicanMove(modifier){
 
 
         if (diffy < -gap) { // Player holding up
-        mexicanCtx.clearRect(0, 0, mexicanCanvas.width, mexicanCanvas.height);
+            mexicanCtx.clearRect(0, 0, mexicanCanvas.width, mexicanCanvas.height);
 		  mexican.y -= mexican.y * modifier;
 	   }
 	   if (diffy > gap) { // Player holding down
@@ -477,6 +524,7 @@ function mexicanMove(modifier){
                 {
                     mexican.dead = true;
                     totalMexicansKills++;
+                    spawnBrick(mexican.x, mexican.y);
                     mexican.image = mexicanImageDEAD;
                 }
             }
@@ -485,15 +533,55 @@ function mexicanMove(modifier){
     });
 }
 
+//End game method
+function endGame(){
 
-function resetBrick(){
+    //If we get 20 bricks, you win !
+    if (bricksCount >= 20){
+            window.open("halloffame.html", "_self")
+            localStorage.setItem('winner', true);
+        }
 
-    brick.x = 32 + (Math.random() * (mapHeroCanvas.width - 64));
-	brick.y = 32 + (Math.random() * (mapHeroCanvas.height - 64));
+}
+
+//Delete brick
+function deleteBrick(){
+
+    bricks.forEach(function(brick, i){
+
+        if(brick.status == false){
+            bricks.splice(i,1);
+        }
+
+    });
+
+}
+
+//Draw the brick
+function drawBricks(x, y){
+
+    bricks.forEach(function(brick, i){
+		mapHeroCtx.drawImage(brick.image, brick.x, brick.y);
+    });
 
 }
 
 
+let brickSpawnProb;
+//Spawn the brick on a dead mexican
+function spawnBrick(x, y){
+
+
+    brickSpawnProb = Math.floor((Math.random() * 3));
+
+    if (brickSpawnProb == 1){
+        bricks.push(new brick(x,y));
+    }
+
+
+}
+
+//Change the background with the map change
 function background(number){
 
         mapHeroCtx.drawImage(mapOrganisation[number], 0, 0);
@@ -507,12 +595,6 @@ var render = function () {
 		mapHeroCtx.drawImage(heroImage, hero.x, hero.y);
 	}
 
-    if (brickReady) {
-		mapHeroCtx.drawImage(brickImage, brick.x, brick.y);
-	}
-
-
-
      if (bullets.length !== 0) {
         for(let i = 0; i < bullets.length; i++){
             bullets[i].Update();
@@ -525,10 +607,11 @@ var render = function () {
     document.getElementById("bricks").innerHTML = bricksCount;
     // Mexican's kills count
     document.getElementById("kills").innerHTML = totalMexicansKills;
+
 };
 
-//After 100 frame refresh, a new enemy spawn
-let spawnRate = 100;
+//After 150 frame refresh, a new enemy spawn
+let spawnRate = 150;
 let spawnRateCountdown = spawnRate;
 
 
@@ -539,20 +622,9 @@ var main = function () {
 	var now = Date.now();
 	var delta = now - then;
 
-
-    //mexicanCtx.save();
-
     background(mapNumber);
 
     render();
-
-    /*
-    if(started){
-        ds.globalAlpha = 1.0;
-        ds.save();
-
-        started = false;
-    }*/
 
 
     //Enemy spawn loop based on frame refresh
@@ -565,7 +637,11 @@ var main = function () {
         }
 
 
+
     then = now;
+
+    //Check the number of brick for end game
+    endGame();
 
     // Trump moves
     update(delta / 1000);
@@ -575,6 +651,9 @@ var main = function () {
 
     //Draw new mexicans of the array "mexicans"
     drawMexicans();
+
+    //Draw bricks
+    drawBricks();
 
 	// Request to do this again ASAP
 	requestAnimationFrame(main);

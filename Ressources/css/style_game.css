@@ -1,3 +1,15 @@
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:200,400,400i,700|Roboto+Slab:700');
+
+
+* {
+
+  box-sizing: border-box;
+  font-family: Montserrat;
+  margin:0 auto;
+
+}
+
 #health{
 
     background: red;
@@ -9,4 +21,14 @@
 
     border: 1px solid black;
     position: fixed;
+}
+
+.container {
+    position: relative;
+}
+
+.container > canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
