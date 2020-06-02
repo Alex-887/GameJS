@@ -196,15 +196,8 @@ var reset = function () {
 
 //Delete all enemies after changing map
 function deleteEnemies(){
-    /*
-    for (let i = 0; i < mexicans.length; i++){
-
-            mexicans.splice(i, 1);
-
-    }*/
 
     mexicans.forEach(function(mexican, i){
-
 
         mexicans.splice(i, 1);
 

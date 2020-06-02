@@ -10,6 +10,10 @@
 
 }
 
+h1{
+    font-size: 35px
+}
+
 #health{
 
     background: red;
@@ -17,18 +21,42 @@
 
 }
 
-#gameScreen{
 
-    border: 1px solid black;
-    position: fixed;
-}
-
-.container {
+#container {
     position: relative;
+    border: 1px black;
 }
 
-.container > canvas {
+#container > canvas {
     position: absolute;
     top: 0;
     left: 0;
+}
+
+
+#gameInfo{
+
+    list-style-type: none;
+    margin:0;
+    padding:0;
+    overflow: hidden;
+    background-color: black;
+    width: 1920px;
+}
+
+#gameInfo > li{
+
+    display: block;
+    color: white;
+    padding: 20px 20px;
+    text-decoration: none;
+    float: left;
+    font-size: 20px;
+}
+
+#nickname{
+
+    font-size:30px;
+
+
 }
