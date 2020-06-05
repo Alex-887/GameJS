@@ -6,38 +6,32 @@
 
 <body>
 <header>
-<h1>Trump and the southern threat !</h1>
 
-<h2>Health bar: <progress id="health" value="100" max="100"></progress></h2>
+<ul id="gameInfo">
 
+                <li>Health bar: <progress id="health" value="100"  max="100"></progress></li>
+                <li>Bricks: <span id="bricks"></span></li>
+                <li>Mexicans killed: <span id="kills"></span></li>
+                <li style="float: right">
+                    <div id="nickname">
 
-
-<h2>Bricks: <span id="bricks"></span></h2>
-<h2>Mexicans killed: <span id="kills"></span></h2>
-
-<div id="nickname">
-
-    <script>
-    document.getElementById("nickname").innerHTML = "Get get them, " + localStorage.getItem('UserNickname') + " !";
-    </script>
-
-
-</div>
-
-
-
+                        <script>
+                            document.getElementById("nickname").innerHTML = "Get get them, " + localStorage.getItem('UserNickname') + " !";
+                        </script>
+                    </div>
+                </li>
+    </ul>
 
 </header>
 
 <main>
 
-    <div id = "container" class ="container">
-    <canvas id="mapHerolayer" width="1920" height="1080" style="z-index: 1;"></canvas>
-        <canvas id="enemyLayer" width="1920" height="1080" style="z-index: 2;"></canvas>
-    </div>
+        <div id = "container" class ="container">
+            <canvas id="mapHerolayer" width="1920" height="1080" style="z-index: 1;"></canvas>
+            <canvas id="enemyLayer" width="1920" height="1080" style="z-index: 2;"></canvas>
+        </div>
+        <script src="game3.js" ></script>
 
-
-    <script src="game3.js" ></script>
 </main>
 
 

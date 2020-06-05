@@ -64,8 +64,8 @@ mexicanImageDEAD.onload = function () {
 mexicanImageDEAD.src = "Ressources/Images/MexicanDown.png";
 
 // mexican image FLIP
-var mexicanFlipReady = false;
-var mexicanFlipImage = new Image();
+let mexicanFlipReady = false;
+let mexicanFlipImage = new Image();
 mexicanFlipImage.onload = function () {
 	mexicanFlipReady = true;
 }
@@ -163,7 +163,7 @@ class brick{
 // Game objects *******************************************************v
 
 // Handle keyboard controls
-var keysDown = {};
+let keysDown = {};
 
 addEventListener("keydown", function (e) {
 	keysDown[e.keyCode] = true;
@@ -180,7 +180,7 @@ addEventListener("keyup", function (e) {
 
 // Spawn the hero and the mexicans
 
-var reset = function () {
+let reset = function () {
     //Spawn the hero
 	hero.x = mapHeroCanvas.width / 2;
 	hero.y = mapHeroCanvas.height / 2;
@@ -194,19 +194,22 @@ var reset = function () {
 };
 
 
+function deleteDeadEnemies(){
+    mexicans.forEach(function(mexican, i){
+
+        if (mexican.dead == true){
+            mexicans.splice(i, 1);
+        }
+
+    });
+}
+
 //Delete all enemies after changing map
 function deleteEnemies(){
-    /*
-    for (let i = 0; i < mexicans.length; i++){
-
-            mexicans.splice(i, 1);
-
-    }*/
 
     mexicans.forEach(function(mexican, i){
 
-
-        mexicans.splice(i, 1);
+            mexicans.splice(i, 1);
 
     });
 
@@ -224,8 +227,16 @@ function deleteBricks(){
 
 }
 
+function loadMessage(){
+
+                mapHeroCtx.fillStyle = "rgb(250, 45, 27)";
+	            mapHeroCtx.font = "40px Helvetica";
+                mapHeroCtx.fillText("Load the new map !", (mapHeroCanvas.width/2),100);
+                mapHeroCtx.textAlign = "center";
+}
+
 // Update game objects
-var update = function (modifier) {
+let update = function (modifier) {
 
 	if (38 in keysDown) { // Player holding up
 		hero.y -= hero.speed * modifier;
@@ -248,18 +259,36 @@ var update = function (modifier) {
             //position in map: [0|0
             //                  X|0]
             case 2:
-                mapNumber=0;
                 deleteEnemies();
                 deleteBricks();
-                hero.y = mapHeroCtx.canvas.height + hero.size;
+                 //Show the loading message
+                loadMessage();
+                 //Let the time to delete all enemies and bricks on the screen
+                setTimeout(
+                    function(){
+                       mapNumber=0;
+                       hero.y = mapHeroCtx.canvas.height + hero.size;
+                    },
+                    2000
+
+                );
                 break;
             //position in map: [0|0
             //                  0|X]
             case 3:
-                mapNumber=1;
                 deleteEnemies();
                 deleteBricks();
-                hero.y = mapHeroCtx.canvas.height + hero.size;
+                 //Show the loading message
+                loadMessage();
+                //Let the time to delete all enemies and bricks on the screen
+                setTimeout(
+                    function(){
+                       mapNumber=1;
+                       hero.y = mapHeroCtx.canvas.height + hero.size;
+                    },
+                    2000
+
+                );
                 break;
 
             }
@@ -276,18 +305,36 @@ var update = function (modifier) {
             //position in map: [X|0
             //                  0|0]
             case 0:
-                mapNumber=2;
                 deleteEnemies();
                 deleteBricks();
-                hero.y = 0;
+                //Show the loading message
+                loadMessage();
+                //Let the time to delete all enemies and bricks on the screen
+                setTimeout(
+                    function(){
+                       mapNumber=2;
+                       hero.y = 0;
+                    },
+                    2000
+
+                );
                 break;
             //position in map: [0|X
             //                  0|0]
             case 1:
-                mapNumber=3;
                 deleteEnemies();
                 deleteBricks();
-                hero.y = 0;
+                //Show the loading message
+                loadMessage();
+                //Let the time to delete all enemies and bricks on the screen
+                setTimeout(
+                    function(){
+                       mapNumber=3;
+                       hero.y = 0;
+                    },
+                    2000
+
+                );
                 break;
             //position in map: [0|0
             //                  X|0]
@@ -329,10 +376,19 @@ var update = function (modifier) {
             //position in map: [0|X
             //                  0|0]
             case 1:
-                mapNumber=0;
              deleteEnemies();
              deleteBricks();
-                hero.x = 1850;
+             //Show the loading message
+                loadMessage();
+              //Change the image if the player changes direction
+             setTimeout(
+                    function(){
+                       mapNumber=0;
+                       hero.x = 1850;
+                    },
+                    2000
+
+                );
                 break;
             //position in map: [0|0
             //                  X|0]
@@ -342,10 +398,19 @@ var update = function (modifier) {
             //position in map: [0|0
             //                  0|X]
             case 3:
-                mapNumber=2;
-             deleteEnemies();
-             deleteBricks();
-                hero.x = 1850;
+                deleteEnemies();
+                deleteBricks();
+             //Show the loading message
+                loadMessage();
+                //Change the image if the player changes direction
+                setTimeout(
+                    function(){
+                       mapNumber=2;
+                       hero.x = 1850;
+                    },
+                    2000
+
+                );
                 break;
 
         }
@@ -374,10 +439,19 @@ var update = function (modifier) {
             //position in map: [X|0
             //                  0|0]
             case 0:
-                mapNumber=1;
                deleteEnemies();
                deleteBricks();
-                hero.x = 0;
+               //Show the loading message
+                loadMessage();
+               //Change the image if the player changes direction
+                setTimeout(
+                    function(){
+                       mapNumber=1;
+                       hero.x = 0;
+                    },
+                    2000
+
+                );
                 break;
             //position in map: [0|X
             //                  0|0]
@@ -387,10 +461,19 @@ var update = function (modifier) {
             //position in map: [0|0
             //                  X|0]
             case 2:
-                mapNumber=3;
                deleteEnemies();
                deleteBricks();
-                hero.x = 0;
+               //Show the loading message
+                loadMessage();
+               //Change the image if the player changes direction
+                setTimeout(
+                    function(){
+                       mapNumber=3;
+                       hero.x = 0;
+                    },
+                    2000
+
+                );
                 break;
             //position in map: [0|0
             //                  0|X]
@@ -440,8 +523,8 @@ function mexicanMove(modifier){
     if(!(mexican.dead))
     {
 
-        var diffx = Math.floor(hero.x - mexican.x);
-        var diffy = Math.floor(hero.y - mexican.y);
+        let diffx = Math.floor(hero.x - mexican.x);
+        let diffy = Math.floor(hero.y - mexican.y);
 
         //Distance min between trump and mexicans
         let gap = 20;
@@ -491,11 +574,11 @@ function mexicanMove(modifier){
               //when Trump dies, go to the hall of fame
 
               endTime = new Date();
-              var timeDiff = endTime - startTime; //in miliseconds
+              let timeDiff = endTime - startTime; //in miliseconds
               timeDiff /= 1000;
 
               // get seconds
-              var seconds = Math.round(timeDiff);
+              let seconds = Math.round(timeDiff);
 
                 //store in local storage
               localStorage.setItem("Chrono", seconds);
@@ -526,6 +609,14 @@ function mexicanMove(modifier){
                     totalMexicansKills++;
                     spawnBrick(mexican.x, mexican.y);
                     mexican.image = mexicanImageDEAD;
+                    //Wait 1 second for delete the dead mexican
+                    setTimeout(
+                        function(){
+                            deleteDeadEnemies();
+                        },
+                        1000
+                    );
+
                 }
             }
            }
@@ -537,10 +628,35 @@ function mexicanMove(modifier){
 function endGame(){
 
     //If we get 20 bricks, you win !
-    if (bricksCount >= 20){
+
+    setTimeout(
+
+        function(){
+        if (bricksCount >= 20){
+
+                //when Trump win, go to the hall of fame
+
+              endTime = new Date();
+              var timeDiff = endTime - startTime; //in miliseconds
+              timeDiff /= 1000;
+
+              // get seconds
+              var seconds = Math.round(timeDiff);
+
+                //store in local storage
+              localStorage.setItem("Chrono", seconds);
+
             window.open("halloffame.html", "_self")
             localStorage.setItem('winner', true);
         }
+        },
+        10000
+
+    );
+
+
+
+
 
 }
 
@@ -589,7 +705,7 @@ function background(number){
 };
 
 // Draw everything
-var render = function () {
+let render = function () {
 
 	if (heroReady) {
 		mapHeroCtx.drawImage(heroImage, hero.x, hero.y);
@@ -611,16 +727,16 @@ var render = function () {
 };
 
 //After 150 frame refresh, a new enemy spawn
-let spawnRate = 150;
+let spawnRate = 100;
 let spawnRateCountdown = spawnRate;
 
 
 let started = true;
 
 // The main game loop
-var main = function () {
-	var now = Date.now();
-	var delta = now - then;
+let main = function () {
+	let now = Date.now();
+	let delta = now - then;
 
     background(mapNumber);
 
@@ -660,10 +776,10 @@ var main = function () {
 };
 
 // Cross-browser support for requestAnimationFrame
-var w = window;
+let w = window;
 requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
 
 // Let's play this game!
-var then = Date.now();
+let then = Date.now();
 reset();
 main();
