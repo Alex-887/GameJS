@@ -18,13 +18,14 @@
 
  html {
   height: 100%;
+     /* No scrollbar*/
   overflow: hidden;
 }
 
 
 
 
-
+/* the background */
 body {
 
    /* getting the image and putting it into grey */
@@ -40,28 +41,15 @@ body {
 
 
 
-.container {
 
-    padding: 200px;
-    margin: auto 0;
-    text-align: center;
-
-}
-
-
-
+/* No scrollbar*/
 
 h1 {
 
     color: #cc3333;
     font-size: 70px;
     text-align: center;
-
-
-
 }
-
-
 
 
 
@@ -69,18 +57,22 @@ h2 {
      color: #cc3333;
      font-size: 40px;
      margin-top: 20px;
-
 }
-
-
 
 h3 {
-        font-size: 50px;
+    font-size: 50px;
     margin-top: 50px;
-      color: #fff;
+    color: #fff;
 }
 
 
+
+
+
+/* DRAG AND DROP */
+
+
+/* class that contains the image, the one we want to drag and drop */
 .fill {
 
     background-image: url('/Ressources/Images/dragndrop.png');
@@ -94,19 +86,21 @@ h3 {
 }
 
 
-
+/* places where we want to drop in the image */
 
 .empty {
 
-    display: inline-block;
-    height: 160px;
-    width: 160px;
-    margin: 10px;
-    border: 3px salmon solid;
-    background-color: white;
 
+    display: inline-block;
+    height: 165px;
+    width: 165px;
+    margin: 30px;
+    border: 2px red solid;
+    background-color: transparent;
 
 }
+
+/* holding the image */
 
 
 .hold{
@@ -114,17 +108,24 @@ h3 {
 
 }
 
+/* when putting the image inside the other */
+
 .hovered {
-    background: #f4f4f4;
+
     border-style: dashed;
 
 }
 
+
+/* We don't want to see the image stuck in the "empty" place when we drag it */
 .invisible {
 
     display: none;
 
 }
+
+
+
 
 
 

@@ -17,7 +17,7 @@
 
  html {
   height: 100%;
-/*     No scroolbar*/
+/*     No scrollbar*/
      overflow: hidden;
 }
 
@@ -35,8 +35,6 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-
-
 }
 
 
@@ -50,6 +48,7 @@ body {
   background: #f1f1f1;
 }
 
+/* Full-width input fields */
 input[type=text]:focus {
   background-color: #ddd;
   outline: none;
@@ -102,7 +101,6 @@ h1 {
 }
 
 #maga {
-
     position: absolute;
     padding:  20px;
     width: 350px;
@@ -113,8 +111,9 @@ h1 {
 
 
 
-.btn {
-      font-size: 20px;
+#btn {
+
+  font-size: 20px;
   width: 250px;
   height: 50px;
   color: #fff;
@@ -123,9 +122,11 @@ h1 {
   border-radius: 15px;
   box-shadow: 0 5px #999;
   font-variant-caps: all-petite-caps;
+  margin-top: 20px;
+
 }
 
-.btn:hover {
+#btn:hover {
 
   opacity: 1;
 
@@ -152,10 +153,4 @@ h1 {
 
 }
 
-.center{
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    margin-top: 30px;
-}
 

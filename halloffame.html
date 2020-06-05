@@ -3,21 +3,19 @@
 <html>
 
 
+       <!-- Google map without API (you have to insert your credit card on the google docs and we did not do it, the map will say it is still in devloppment)  -->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="ressources/css/hall_of_fame.css?ts=<?=time()?>">
-
-
 </head>
 
 
     <h1>Wall of fame</h1>
 
-
+       <!--  Text changes depending on if the player lost or won -->
     <h2 id="winner_loser">Another victory for the Republicans ! Good job ! </h2>
-
-
-
     <script>
             if(localStorage.getItem("winner") == "false")
             {
@@ -26,32 +24,39 @@
     </script>
 
 
-
+       <!--  Scoring, depending on the time -->
     <h3 id="score"></h3>
-
-
         <script type="text/javascript">
-              document.getElementById("score").innerHTML = "Time alive : " + localStorage.getItem("Chrono") + " seconds";
+              document.getElementById("score").innerHTML = "Time alive : " + localStorage.getItem("Chrono") + " secods";
         </script>
 
 
     <body>
-
         <div class="empty">
-
         <div class="fill" draggable="true"></div>
-
         </div>
-
-
         <div class ="empty">
         </div>
-
-
         <script src="DragAndDrop.js"></script>
 
 
 
+               <!--  Text changes depending on if the player lost or won -->
+    <br/>
+    <h2 id="winner_location">Good job, the wall was built right here :</h2>
+    <br/>
+    <script>
+            if(localStorage.getItem("winner") == "false")
+            {
+            document.getElementById("winner_location").innerHTML = "You died here. Sorry."
+            };
+    </script>
+
+
+
+            <!-- Google map  -->
+            <div id="map" style="width: 400px; height: 300px; " ></div>
+            <script src="geo.js"></script>
 
     </body>
 </html>
