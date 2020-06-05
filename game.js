@@ -632,7 +632,7 @@ function endGame(){
     setTimeout(
 
         function(){
-        if (bricksCount >= 20){
+        if (bricksCount >= 10){
 
                 //when Trump win, go to the hall of fame
 
