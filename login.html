@@ -18,28 +18,37 @@
     <form>
 
     <label><h1>Trump game</h1></label>
-    <input type="text" id="nickname" placeholder="Your nickname" required maxlength="15" autocomplete="off">
+    <input type="text" id="nickname" placeholder="Your nickname" required autocomplete="off">
 
-    <button type="submit" class="btn" id="btn"><b>Let's build this wall</b></button>
+    <button type="submit" id="btn"><b>Let's build this wall</b></button>
 
 
 
           <script type="text/javascript">
 
 
-            //get the user input
-              const nickName = document.getElementById("nickname");
-              const btn = document.getElementById("btn");
-
              //saving to local storage
-              btn.onclick = function(){
-                  const nickname = nickName.value;
+
+                  const nickName = document.getElementById("nickname");
+
+
+            const btn = document.getElementById("btn");
+
+                    btn.onclick = function(){
+
+                 //get the user input
+
+                  nickname = nickName.value;
+
 
                   localStorage.setItem('UserNickname', nickname);
 
-                  //location.reload();
-                  window.open("start.html");
-                  window.close;
+                  if(nickname != ""){
+                      window.open("start.html");
+                      window.close();
+                  }
+
+
               };
 
 
@@ -64,7 +73,8 @@
       var myAudio = document.getElementById("player");
       if (myAudio.paused) {
         myAudio.play();
-      } else {
+      }
+          else {
       myAudio.pause();
       }
      }
@@ -84,4 +94,8 @@
 
 
 </body>
+
+
+
+
 </html>
